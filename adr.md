@@ -1,27 +1,27 @@
 # Architecture Decision Record (ADR)
 
-Ce fichier est le **journal unique** des décisions d'architecture du projet (choix de frameworks/librairies, patterns structurants, arbitrages ayant un impact durable).
+This file is the **single log** of the project's architecture decisions (framework/library choices, structural patterns, trade-offs with lasting impact).
 
-## Pourquoi ce fichier
+## Why this file
 
-- **Mémoire du "pourquoi"** : le code montre *quoi*, l'historique Git montre *quand*, mais ni l'un ni l'autre n'explique pourquoi une option a été retenue plutôt qu'une autre. Ce fichier comble ce vide.
-- **Éviter de refaire les mêmes débats** : avant toute proposition ayant un impact architectural, ce fichier doit être consulté pour ne pas contredire ou refaire silencieusement une décision déjà prise.
-- **Onboarding** : toute personne (humaine ou agent IA) rejoignant le projet peut comprendre rapidement les choix structurants et leurs compromis sans devoir interroger les auteurs d'origine.
-- **Traçabilité des compromis** : chaque entrée documente les alternatives considérées et les conséquences acceptées, ce qui permet de juger plus tard si une décision doit être révisée en connaissance de cause.
+- **Memory of the "why"**: the code shows *what*, the Git history shows *when*, but neither explains why one option was chosen over another. This file fills that gap.
+- **Avoid re-litigating the same debates**: before any proposal with architectural impact, this file must be consulted so as not to contradict or silently redo a decision that's already been made.
+- **Onboarding**: anyone (human or AI agent) joining the project can quickly understand the structuring choices and their trade-offs without having to ask the original authors.
+- **Traceability of trade-offs**: each entry documents the alternatives considered and the consequences accepted, making it possible to judge later whether a decision should be revisited with full knowledge of the facts.
 
-## Règles d'usage
+## Usage rules
 
-- **Append-only** : ce fichier est un journal chronologique, pas un document à réécrire. On ajoute une nouvelle entrée, on ne modifie pas les entrées existantes.
-- **Une entrée par décision structurante**, avec au minimum :
+- **Append-only**: this file is a chronological log, not a document to rewrite. New entries are added; existing entries are not modified.
+- **One entry per structuring decision**, with at minimum:
   - Date
-  - Décision (ce qui a été choisi)
-  - Contexte / problème résolu
-  - Alternatives considérées
-  - Conséquences / compromis acceptés
-- Si une décision passée doit être remise en question, la nouvelle entrée doit l'expliciter clairement plutôt que de l'ignorer.
+  - Decision (what was chosen)
+  - Context / problem being solved
+  - Alternatives considered
+  - Consequences / trade-offs accepted
+- If a past decision needs to be revisited, the new entry must say so explicitly rather than ignoring it.
 
 ---
 
-## Journal des décisions
+## Decision log
 
-_Aucune décision architecturale n'a encore été enregistrée. La première entrée sera ajoutée lors du prochain choix structurant (framework, librairie, pattern, etc.)._
+_No architecture decision has been recorded yet. The first entry will be added at the next structuring choice (framework, library, pattern, etc.)._
