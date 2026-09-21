@@ -24,4 +24,18 @@ This file is the **single log** of the project's architecture decisions (framewo
 
 ## Decision log
 
-_No architecture decision has been recorded yet. The first entry will be added at the next structuring choice (framework, library, pattern, etc.)._
+### 2026-09-21 — Testing stack: Vitest + React Testing Library, Playwright for e2e later
+
+- **Decision**: Adopt Vitest + React Testing Library as the standard for unit/component/integration tests, and Playwright for end-to-end tests once critical user flows exist. Documented in [docs/testing-guidelines.md](docs/testing-guidelines.md).
+- **Context**: `docs/testing-guidelines.md` was referenced by CLAUDE.md but did not exist, and no test tooling was installed in the project (fresh Next.js 16 scaffold, no `test` script, no test dependencies).
+- **Alternatives considered**:
+  - Jest — more established with React historically, but slower and needs more config for ESM/TypeScript with Next.js 16; Vitest has largely superseded it for new projects.
+  - Cypress for e2e — viable, but Playwright has better multi-browser support and faster CI execution.
+- **Consequences / trade-offs accepted**: Tooling (Vitest, RTL, config, `test` script) is not yet installed — this is deliberately left as a separate, explicit task rather than bundled with the guidelines doc, to keep changes minimal and scoped. Playwright is deferred until there is an actual critical user flow worth covering, to avoid testing infrastructure ahead of real product surface.
+
+### 2026-09-21 — Vitest + React Testing Library tooling installed
+
+- **Decision**: Install and wire up the tooling decided above: `vitest`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event` as dev dependencies; `vitest.config.mts` (jsdom environment, native Vite tsconfig-paths resolution) and `vitest.setup.ts`; `npm test` and `npm run test:watch` scripts.
+- **Context**: Follow-up to the same-day decision above — the guidelines existed but tooling did not. `@types/node` had to be bumped from `^20` to `^24` in `package.json` because Vitest 5 requires `@types/node` `^22 || >=24` as a peer, and the local Node runtime is v24.
+- **Alternatives considered**: Used `vite-tsconfig-paths` plugin initially, then switched to Vite's native `resolve.tsconfigPaths: true` (Vite now supports this natively, removing an extra dependency and a deprecation warning).
+- **Consequences / trade-offs accepted**: `@types/node` moving to `^24` narrows the supported Node range for type-checking to newer Node versions — acceptable since the local/dev runtime is already v24. Verified `npm run lint`, `npm run build`, and `npm test` all pass after the change.
