@@ -84,7 +84,7 @@ Detection signals (any one is enough to trigger this rule):
 Required agent behavior:
 1. Stop before writing any code.
 2. Start the message with the ✂️ emoji (per the Active Partner guidelines) and explain briefly why the request looks too large to implement as one block.
-3. Invoke the `sfd-micro-features` skill to break the request down into micro features / user stories with acceptance criteria, ready for a backlog.
+3. Invoke the `anthropic-skills:sfd-micro-features` skill to break the request down into micro features / user stories with acceptance criteria, ready for a backlog.
 4. Present the resulting breakdown to the user and let them validate, reorder, or adjust priorities before any implementation starts.
 5. Only implement one micro feature (or a small, explicitly agreed batch) at a time, following the normal workflow in section 3.
 
