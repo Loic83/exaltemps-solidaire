@@ -96,6 +96,8 @@ This rule takes precedence over jumping straight to implementation, even under A
 
 Every feature or bug fix must be covered by tests before it is considered done — untested code is not finished work.
 
+Detailed guidelines (frameworks, conventions, how to run the suite): see [docs/testing-guidelines.md](./docs/testing-guidelines.md).
+
 Required behavior:
 - For any new or modified business logic (functions, hooks, API routes, utilities), add or update **unit tests** covering the normal path, edge cases, and error cases.
 - For any new or modified user-facing feature or flow (page, form, API endpoint used end-to-end), add or update **functional/integration tests** that exercise the feature the way a user or client would.
