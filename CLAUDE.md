@@ -25,19 +25,7 @@ Priority objectives:
 
 ---
 
-## 3) Single source of truth for development best practices
-
-All development best practices (architecture, code conventions, API contracts, testing, CI, security, observability, templates, anti-patterns, and DoD) are defined in:
-
-- [docs/coding-guidelines.md](docs/coding-guidelines.md)
-- [docs/testing-guidelines.md](docs/testing-guidelines.md) (testing-specific standards)
-- [docs/git-guidelines.md](docs/git-guidelines.md) (Git workflow and collaboration standards)
-
-The agent must follow these files as the authoritative coding standards.
-
----
-
-## 4) Expected agent workflow
+## 3) Expected agent workflow
 
 For each request:
 1. Understand the need and scope.
@@ -55,7 +43,7 @@ Execution rules:
 
 ---
 
-## 5) Architecture Decision Record (ADR)
+## 4) Architecture Decision Record (ADR)
 
 All architecture decisions (framework/library choices, structural patterns, trade-offs with lasting impact) must be tracked in a single file at the repository root: `adr.md`.
 
@@ -73,7 +61,7 @@ After making a new architecture decision:
 
 ---
 
-## 6) Final rule
+## 5) Final rule
 
 When trade-offs are required, prioritize in this order:
 1. Business correctness
@@ -81,6 +69,40 @@ When trade-offs are required, prioritize in this order:
 3. Simplicity
 4. Maintainability
 5. Performance
+
+---
+
+## 6) Oversized requests must be split before implementation
+
+If the user drops a large, block-shaped request in one go — a full cahier des charges, an SFD (spécification fonctionnelle détaillée), a multi-feature spec, or any request that bundles several unrelated features/screens/endpoints — the agent must **not** start implementing directly.
+
+Detection signals (any one is enough to trigger this rule):
+- The message is a long spec/requirements document pasted or attached as a single block.
+- The request describes multiple independent features, user flows, or modules at once.
+- Implementing as-is would clearly violate step 3 of section 3 ("Implement the smallest useful change") or produce a single oversized, hard-to-review change.
+
+Required agent behavior:
+1. Stop before writing any code.
+2. Start the message with the ✂️ emoji (per the Active Partner guidelines) and explain briefly why the request looks too large to implement as one block.
+3. Invoke the `sfd-micro-features` skill to break the request down into micro features / user stories with acceptance criteria, ready for a backlog.
+4. Present the resulting breakdown to the user and let them validate, reorder, or adjust priorities before any implementation starts.
+5. Only implement one micro feature (or a small, explicitly agreed batch) at a time, following the normal workflow in section 3.
+
+This rule takes precedence over jumping straight to implementation, even under Auto Mode — decomposing the work is not optional here, since it directly protects scope control (section 2) and the "smallest useful change" principle (section 3).
+
+---
+
+## 7) Testing requirements
+
+Every feature or bug fix must be covered by tests before it is considered done — untested code is not finished work.
+
+Required behavior:
+- For any new or modified business logic (functions, hooks, API routes, utilities), add or update **unit tests** covering the normal path, edge cases, and error cases.
+- For any new or modified user-facing feature or flow (page, form, API endpoint used end-to-end), add or update **functional/integration tests** that exercise the feature the way a user or client would.
+- Do not mark a task as complete without running the test suite and confirming it passes (see section 3, step 5).
+- If no test framework is set up yet for the kind of test needed, say so explicitly (❗️) and propose one instead of skipping the tests silently.
+
+This complements step 4 ("Add or adapt tests") of the workflow in section 3 — testing is not optional and applies to every feature, not just to changes the user explicitly asks to test.
 
 ## Core Guidelines
 You MUST strictly adhere to the following guidelines:
