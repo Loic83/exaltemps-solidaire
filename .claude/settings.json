@@ -47,7 +47,10 @@
       "Bash(docker compose run*)",
       "Bash(docker compose exec*)",
       "Bash(docker run*)",
-      "Bash(docker exec*)"
+      "Bash(docker exec*)",
+      "Bash(git add * -f*)",
+      "Bash(git add *--force*)",
+      "Bash(git add *passation*)"
     ],
     "ask": [
       "Bash(git reset --hard*)",
