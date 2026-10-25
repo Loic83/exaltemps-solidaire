@@ -27,19 +27,21 @@ Si vous êtes sur cette page, c'est que vous êtes dans la 2ème partie du hacka
 
 ### Prérequis
 
-- Node.js 24 et npm, `jq`, `curl`, `unzip` et `git`, accessibles dans le terminal où vous lancez Claude Code. Sans `jq`, le harnais refuse toutes les commandes du terminal.
-- Docker avec `docker compose` : préconisé.
-- Le code de votre équipe (6 caractères) et la clé de contexte `CLE`, transmise à part.
-- `URL_PUBLIQUE`, l'adresse publique de votre application : c'est une variable d'environnement déjà configurée sur votre poste, vous n'avez pas à la définir.
-- Des cadreurs disponibles pour valider le plan et tester chaque version.
+La VM fournit les outils et les variables : vous n'avez rien à installer ni à définir.
+
+- **Outils** : Node.js 24 et npm, `jq`, `curl`, `unzip`, `git` et Docker avec `docker compose`. Sans `jq`, le harnais refuse toutes les commandes du terminal.
+- **Variables d'environnement** : `CLE` (la clé de contexte PM Lab) et `URL_PUBLIQUE` (l'adresse publique de votre application) sont déjà configurées.
+
+Ce que vous apportez :
+
+- le code de votre équipe (6 caractères), demandé par `/recuperer-passation` ;
+- des cadreurs disponibles pour valider le plan et tester chaque version.
 
 ### Les étapes
 
-1. **Préparez le dépôt** : `npm ci`, puis `npx playwright install chromium` (le navigateur de la démo), puis `git config core.hooksPath .githooks` (le commit refuse la passation et les secrets).
-2. **Vérifiez vos variables** :
-   - `export CLE=...` : la clé de contexte, transmise à part ;
-   - `echo $URL_PUBLIQUE` : déjà configurée, elle doit afficher l'adresse de votre application. Si elle est vide, prévenez l'équipe plateforme.
-3. **Lancez Claude Code** dans ce dossier (`claude`), puis tapez les commandes dans l'ordre :
+La VM est préparée avant le hackathon : dépendances installées, navigateur de la démo, contrôle au commit et variables d'environnement.
+
+1. **Lancez Claude Code** dans ce dossier (`claude`), puis tapez les commandes dans l'ordre :
 
    | Commande | Ce qu'elle fait |
    |---|---|
@@ -49,7 +51,7 @@ Si vous êtes sur cette page, c'est que vous êtes dans la 2ème partie du hacka
    | `/expliquer-iteration` (optionnel) | Explique ce que l'itération a produit, pour comprendre l'architecture du code |
    | `/retro-harnais` | En fin de hackathon : ce que le harnais a apporté, ce qui lui a manqué, ce que vous emportez |
 
-4. **Pour montrer l'application** : `BASE_URL=$URL_PUBLIQUE npm run demo` rejoue le cas passant dans Chromium, sur la version en ligne. Sans `BASE_URL`, la démo vise `http://localhost:3000`. Ce n'est pas une suite de tests, c'est la démo du pitch : elle part d'une seule étape (ouvrir l'application), et chaque itération y ajoute les siennes dans `e2e/demo.spec.ts`.
+2. **Pour montrer l'application** : `BASE_URL=$URL_PUBLIQUE npm run demo` rejoue le cas passant dans Chromium, sur la version en ligne. Sans `BASE_URL`, la démo vise `http://localhost:3000`. Ce n'est pas une suite de tests, c'est la démo du pitch : elle part d'une seule étape (ouvrir l'application), et chaque itération y ajoute les siennes dans `e2e/demo.spec.ts`.
 
 **Comprendre le harnais que vous utilisez** : [HARNAIS.md](./HARNAIS.md), en six questions. C'est fait pour être lu pendant le hackathon et réutilisé après.
 
