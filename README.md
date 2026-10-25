@@ -1,16 +1,44 @@
 ## Démarrage rapide : hackathon, partie 2
 
-Si vous êtes sur cette page, c'est que vous êtes dans la 2ème partie du hackathon sinon commencez par l'atelier : https://github.com/Loic83/exaltemps-solidaire-practice
+Si vous êtes sur cette page, c'est que vous êtes dans la 2ème partie du hackathon. Sinon, commencez par l'atelier du dossier `exaltemps-solidaire-practice`.
 
-Vous livrez le programme de votre équipe en **itérations courtes**, autant que le temps restant le permet, avec **10 minutes de codage au plus** chacune. Chaque itération se termine par une version en ligne, que l'équipe teste dans PM Lab. L'agent vous demandera régulièrement combien de minutes il reste avant la fin du build.
+### Le hackathon en bref
+
+- **Partie 1, le cadrage** : chaque équipe a travaillé pour une association dans PM Lab Solidaire. Elle en a tiré une problématique, des idées priorisées, une solution décrite écran par écran, un prototype HTML et les hypothèses à vérifier.
+- **Partie 2, le build** (vous êtes ici) : vous transformez ce cadrage en application en ligne, avec Claude Code. Vous ne partez pas d'une page blanche : l'agent reçoit le dossier de l'équipe, la **passation**, et reproduit son prototype.
+
+### Comment vous allez builder
+
+- **Vous pilotez l'agent, il écrit le code.** Vous lancez les commandes, vous répondez à ses questions et vous prenez les décisions qu'il vous soumet.
+- **Vous livrez en itérations courtes**, autant que le temps restant le permet. Une itération dure au moins :
+  - 10 minutes de codage au plus ;
+  - environ 5 minutes de publication ;
+  - le tour de test de l'équipe.
+- **Chaque itération a un seul objectif**, démontrable en une phrase devant l'équipe, et 3 critères d'acceptation au plus.
+- **Chaque itération se termine par une version en ligne** sur `URL_PUBLIQUE`, signalée à PM Lab. Les cadreurs la testent alors dans PM Lab. Une itération qui ne publie rien est une itération perdue.
+- **Le goulot, c'est le tour de test de l'équipe, pas le code.** L'agent vous demandera régulièrement combien de minutes il reste avant la fin du build.
+- **Un harnais encadre l'agent** :
+  - des règles écrites dans `CLAUDE.md` ;
+  - des commandes qui enchaînent les étapes ;
+  - des contrôles qui bloquent un commit ou un signal non conformes ;
+  - une alarme à 8 minutes de codage, où l'agent vous demande si vous finalisez ou publiez ce qui marche.
+
+**Ce que vous obtenez à la fin** : une application en ligne pour l'association, et un dépôt déployable par la Forge après le hackathon.
 
 ### Prérequis
 
 - Node.js 24 et npm, `jq`, `curl`, `unzip` et `git`, accessibles dans le terminal où vous lancez Claude Code. Sans `jq`, le harnais refuse toutes les commandes du terminal.
 - Docker avec `docker compose` : préconisé.
+- Le code de votre équipe (6 caractères) et la clé de contexte `CLE`, transmise à part.
+- `URL_PUBLIQUE`, l'adresse publique de votre application : c'est une variable d'environnement déjà configurée sur votre poste, vous n'avez pas à la définir.
+- Des cadreurs disponibles pour valider le plan et tester chaque version.
 
-1. **Préparez le dépôt** : `npm ci`, puis `git config core.hooksPath .githooks` (le commit refuse la passation et les secrets).
-2. **Vérifiez vos variables** : `export CLE=...` (la clé de contexte, transmise à part) et `export URL_PUBLIQUE=...` (l'adresse où votre application sera visible).
+### Les étapes
+
+1. **Préparez le dépôt** : `npm ci`, puis `npx playwright install chromium` (le navigateur de la démo), puis `git config core.hooksPath .githooks` (le commit refuse la passation et les secrets).
+2. **Vérifiez vos variables** :
+   - `export CLE=...` : la clé de contexte, transmise à part ;
+   - `echo $URL_PUBLIQUE` : déjà configurée, elle doit afficher l'adresse de votre application. Si elle est vide, prévenez l'équipe plateforme.
 3. **Lancez Claude Code** dans ce dossier (`claude`), puis tapez les commandes dans l'ordre :
 
    | Commande | Ce qu'elle fait |
@@ -21,9 +49,8 @@ Vous livrez le programme de votre équipe en **itérations courtes**, autant que
    | `/expliquer-iteration` (optionnel) | Explique ce que l'itération a produit, pour comprendre l'architecture du code |
    | `/retro-harnais` | En fin de hackathon : ce que le harnais a apporté, ce qui lui a manqué, ce que vous emportez |
 
-4. **Pour montrer l'application** : `npm run demo` rejoue le cas passant dans un navigateur. Ce n'est pas une suite de tests, c'est la démo du pitch.
+4. **Pour montrer l'application** : `BASE_URL=$URL_PUBLIQUE npm run demo` rejoue le cas passant dans Chromium, sur la version en ligne. Sans `BASE_URL`, la démo vise `http://localhost:3000`. Ce n'est pas une suite de tests, c'est la démo du pitch : elle part d'une seule étape (ouvrir l'application), et chaque itération y ajoute les siennes dans `e2e/demo.spec.ts`.
 
 **Comprendre le harnais que vous utilisez** : [HARNAIS.md](./HARNAIS.md), en six questions. C'est fait pour être lu pendant le hackathon et réutilisé après.
 
 Ce que contient le dossier de passation : [docs/passation.md](./docs/passation.md). Les règles de déploiement : [docs/contrat-deployabilite.md](./docs/contrat-deployabilite.md).
-
