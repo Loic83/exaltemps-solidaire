@@ -57,7 +57,7 @@ Les procédures prennent deux formes, qui ne diffèrent que par **qui ouvre la f
 | Règle (`CLAUDE.md`) | personne : toujours active | « une itération, c'est 3 critères d'acceptation au plus » |
 | Procédure de type commande (`.claude/commands/`) | toi, en tapant `/…` | `/recuperer-passation`, `/planifier-iterations`, `/iteration`, `/retro-harnais`, et `/expliquer-iteration` en option |
 | Procédure de type skill | l'agent, s'il juge que la tâche correspond | `sfd-micro-features`, s'il est installé sur la machine |
-| Procédure de type sous-agent (`.claude/agents/`) | l'agent ou toi | `reviewer` (relecture), `us-coder` (une user story) |
+| Procédure de type sous-agent (`.claude/agents/`) | l'agent ou toi | `reviewer` (relecture) |
 
 Les étapes du hackathon sont des commandes, pas des skills : c'est toi qui pilotes la séquence, notamment la validation du plan avec les cadreurs.
 
@@ -89,11 +89,13 @@ Les étapes du hackathon sont des commandes, pas des skills : c'est toi qui pilo
 | Lire les fichiers `.env` (sauf `.env.example`) | `.claude/settings.json`, `deny` | borne, **trouée** : l'outil de lecture est bloqué, un `cat .env` dans le terminal passe. Une borne ne protège que ce qu'on a pensé à bloquer |
 | `git reset --hard`, `sudo`… | `.claude/settings.json`, `ask` | borne souple : l'agent doit te demander |
 | Toute commande hors de la liste `allow` (une dépendance nouvelle, un `git push`…) | `.claude/settings.json`, liste `allow` | alarme : Claude Code te demande la permission. La liste autorise les commandes du harnais (tests, Docker, PM Lab, git add et commit) pour que tu ne valides pas dix commandes par itération |
-| Commiter `passation/` (documents de l'association) | `.gitignore`, refus de `git add -f`, et `scripts/verifier-deployabilite.sh` | borne |
+| Commiter `passation/` (documents de l'association) | `.gitignore`, refus de `git add -f`, et `.githooks/pre-commit`, qui lance `scripts/verifier-deployabilite.sh` à chaque commit (`git commit --no-verify` est refusé) | borne |
 | Laisser un `.env` ou un secret suivi par git | `scripts/verifier-deployabilite.sh`, appelé par le hook avant le signal | borne : la version ne peut pas sortir |
 | Écrire la clé `CLE` dans un fichier | `CLAUDE.md` | panneau seulement |
 
 **Une limite à connaître :** une liste d'autorisations ne protège pas contre le code que l'agent écrit puis exécute. Autoriser `npm test`, c'est autoriser l'exécution des tests qu'il a lui-même écrits. C'est pour ça que les autorisations sont précises (des scripts exacts, `docker compose run` et `exec` interdits), et que l'on travaille dans un **environnement isolé** : ta VM. Ce n'est pas seulement une borne de dernier recours, c'est une étape de la procédure standard : on construit et on teste dans un environnement isolé, sans rien d'autre à abîmer, avant que la Forge déploie ailleurs.
+
+**Une borne trouée, en exemple :** `docker run` et `docker exec` sont interdits, mais `docker compose up` reste autorisé et exécute le `compose.yaml` écrit par l'agent, qui peut déclarer `privileged: true` ou monter la racine de la VM. La règle `deny` n'ajoute presque rien : c'est l'isolement de la VM qui protège.
 
 **Ce qui casse sans :** une consigne ignorée sous pression (« la démo est dans 5 minutes »). C'est le moment où l'agent est le plus compétent qui le rend le plus dangereux.
 
@@ -115,7 +117,7 @@ La DoD d'une itération (détail dans la section 8 du `CLAUDE.md`) :
 
 La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret est suivi par git, que les tests échouent ou que l'application ne répond pas. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
 
-**Le budget** de 10 minutes de codage est volontairement un **panneau doublé d'une alarme** : à 8 minutes, l'alarme sonne, et l'agent te demande si tu préfères finaliser ou t'arrêter et publier. C'est toi qui décides. Les 10 minutes sont un plafond, pas une cible : une itération de 3 minutes, c'est très bien.
+**Le budget** de 10 minutes de codage est volontairement un **panneau doublé d'une alarme** : à 8 minutes, l'alarme sonne (hook `.claude/hooks/alarme-budget.sh`), et l'agent te demande si tu préfères finaliser ou t'arrêter et publier. C'est toi qui décides. Les 10 minutes sont un plafond, pas une cible : une itération de 3 minutes, c'est très bien.
 
 **Le temps restant** n'est jamais supposé : l'agent te demande combien de minutes il reste avant la fin du build, au moment de planifier puis à chaque itération, parce que l'heure de fin peut bouger. Il fait autant d'itérations que le temps le permet, et replanifie à la fin de chacune. Le goulot n'est pas le code, c'est le tour de test de l'équipe dans PM Lab. Avec un budget serré, une itération peut être finie sans que tous ses critères le soient : on publie ce qui marche, on reporte le reste. C'est différent de la DoD Scrum, et c'est voulu.
 
@@ -138,7 +140,7 @@ Tout tracer ne sert à rien sans lecteur. La trace sert à répondre à des ques
 
 Si tu lances Claude Code dans VS Code, le harnais est **identique** : même moteur, mêmes commandes, même `CLAUDE.md`, mêmes permissions, mêmes hooks. Tes étapes ne changent pas. Deux précautions :
 
-- ouvre **la racine du dépôt** comme dossier de travail : les hooks y sont référencés par un chemin relatif ;
+- ouvre **la racine du dépôt** comme dossier de travail : Claude Code la transmet aux hooks (`$CLAUDE_PROJECT_DIR`), qui s'y placent même si l'agent a changé de dossier ;
 - vérifie que l'agent voit `CLE` et `URL_PUBLIQUE` : selon la façon dont VS Code est ouvert, il ne charge pas toujours les variables du terminal.
 
 VS Code te donne en plus de quoi **voir l'architecture du code produit**. Tout est optionnel :

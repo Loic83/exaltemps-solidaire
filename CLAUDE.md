@@ -123,6 +123,7 @@ Cette section prime sur les sections 3, 6 et 7 pendant le hackathon. Elle est en
 - **Le temps restant change** : l'heure de fin du build peut bouger. Tu ne la supposes jamais. Tu demandes au développeur « combien de minutes reste-t-il jusqu'à la fin du build ? » au moment de planifier, puis au début de chaque itération.
 - **Le goulot, c'est l'équipe, pas le code** : chaque version déclenche un tour de test des cadreurs. Une itération dure donc au moins : codage + publication (environ 5 minutes) + tour de test de l'équipe. Tu demandes la durée du tour de test au moment de planifier (10 minutes si le développeur ne sait pas).
 - Chaque itération se termine par une version publiée sur l'URL publique de l'équipe et signalée à PM Lab. Une itération qui ne publie rien est une itération perdue, même si le code avance.
+- La doc de Next dans `node_modules/next/dist/docs/` se consulte quand une API ne se comporte pas comme prévu, dans le budget de l'itération.
 
 ### Les commandes, dans l'ordre
 
@@ -163,6 +164,7 @@ Si la solution de l'équipe ne tient pas dans le temps restant avec des itérati
 - Au début du codage : `mkdir -p .iterations && date +%s > .iterations/<N>.debut`.
 - Après chaque étape significative, calcule le temps écoulé : `echo $(( ($(date +%s) - $(cat .iterations/<N>.debut)) / 60 )) min`.
 - À 8 minutes, c'est l'alarme : tu t'arrêtes et tu poses la question au développeur : « On approche des 10 minutes. Tu préfères finaliser ce qui est en cours, ou t'arrêter là et publier ce qui marche ? » Tu suis sa réponse.
+- À la fin du codage : `date +%s > .iterations/<N>.fin`. Sans ce fichier, l'alarme du budget sonne encore pendant la vérification.
 - S'il choisit de s'arrêter, tu stabilises, tu publies ce qui marche et tu reportes le reste à l'itération suivante, en le notant dans `ITERATIONS.md`.
 - S'il choisit de finaliser, tu notes le dépassement et sa durée dans le bilan de l'itération.
 - Le budget est un panneau doublé d'une alarme, pas une borne : c'est le développeur qui décide. Tu ne le dépasses jamais sans lui avoir posé la question.
@@ -189,6 +191,7 @@ Le harnais bloque le point 6 tant qu'un `.env` ou un secret est suivi par git, q
 - Commiter le dossier `passation/` : il contient les documents de l'association et peut contenir des données personnelles. Il est dans `.gitignore`, ne l'en retire pas.
 - Écrire la clé de contexte dans un fichier : elle se lit dans la variable d'environnement `CLE`.
 - Inventer une fonctionnalité absente de la passation. Si un manque bloque, pose la question (❓).
+- Utiliser le sous-agent `us-coder` pendant le hackathon : il n'est pas interactif, n'applique pas la limite de 1 à 3 tests et ne pose pas la question des 8 minutes.
 
 ---
 
@@ -206,3 +209,13 @@ You MUST strictly adhere to the following guidelines:
 - When you show me a potential error or miss, start your response with❗️emoji
 - If the scope of the work seems too big, suggest the user to break it down into smaller pieces. Start your message with the ✂️ emoji in that case.
 
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

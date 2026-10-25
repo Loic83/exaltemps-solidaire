@@ -29,7 +29,9 @@
       "Bash(./scripts/recuperer-passation.sh *)",
       "Bash(./scripts/verifier-en-ligne.sh)",
       "Bash(./scripts/signaler-version.sh *)",
-      "Bash(./scripts/verifier-deployabilite.sh*)"
+      "Bash(./scripts/verifier-deployabilite.sh*)",
+      "Bash(git push)",
+      "Bash(git push origin *)"
     ],
     "deny": [
       "Bash(rm -rf *)",
@@ -50,7 +52,10 @@
       "Bash(docker exec*)",
       "Bash(git add * -f*)",
       "Bash(git add *--force*)",
-      "Bash(git add *passation*)"
+      "Bash(git add *passation*)",
+      "Bash(git commit *--no-verify*)",
+      "Bash(git commit -n*)",
+      "Bash(git commit * -n *)"
     ],
     "ask": [
       "Bash(git reset --hard*)",
@@ -66,7 +71,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs) npx eslint \"$f\" ;; esac; }",
+            "command": "f=$(jq -r '.tool_response.filePath // .tool_input.file_path'); case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs) cd \"$CLAUDE_PROJECT_DIR\" && npx --no-install eslint \"$f\" 1>&2 || exit 2 ;; esac",
             "statusMessage": "Linting changed file..."
           }
         ]
@@ -76,7 +81,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/tracer.sh"
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/tracer.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/alarme-budget.sh"
           }
         ]
       }
@@ -87,7 +101,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/verifier-avant-signal.sh",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/verifier-avant-signal.sh",
             "statusMessage": "Le harnais vérifie que la version est finie..."
           }
         ]

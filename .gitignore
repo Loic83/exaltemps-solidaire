@@ -47,7 +47,7 @@ next-env.d.ts
 # hackathon : passation de l'équipe (documents de l'association) et chronos d'itération
 /passation/
 /passation.zip
-/.iterations/
+.iterations/
 
 # playwright
 /test-results/

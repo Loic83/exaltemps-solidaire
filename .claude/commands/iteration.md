@@ -1,6 +1,6 @@
 ---
 description: Vérifie la DoR, code dans le budget, vérifie la DoD, publie et signale une itération
-argument-hint: <numéro de l'itération, 1 à 4>
+argument-hint: <numéro de l'itération>
 ---
 Réalise l'itération `$ARGUMENTS` de `ITERATIONS.md`. Les définitions de référence sont dans la section 8 de `CLAUDE.md`.
 
@@ -22,7 +22,9 @@ mkdir -p .iterations && date +%s > .iterations/$ARGUMENTS.debut
 - Code le plus petit changement qui satisfait les critères d'acceptation, en reproduisant le prototype de `passation/prototype/index.html`. Choisis librement tes outils et tes procédures : skills, sous-agent `reviewer`, recherche dans le code.
 - Après chaque étape significative, affiche le temps écoulé :
   `echo $(( ($(date +%s) - $(cat .iterations/$ARGUMENTS.debut)) / 60 )) min`
-- À 8 minutes, c'est l'alarme : pose la question au développeur : « On approche des 10 minutes. Tu préfères finaliser ce qui est en cours, ou t'arrêter là et publier ce qui marche ? » Suis sa réponse, et note un dépassement éventuel pour le bilan.
+- À 8 minutes, c'est l'alarme : pose la question au développeur : « On approche des 10 minutes. Tu préfères finaliser ce qui est en cours, ou t'arrêter là et publier ce qui marche ? » Suis sa réponse, et note un dépassement éventuel pour le bilan. Le hook `alarme-budget.sh` t'interrompt aussi à 8 minutes.
+- À la fin du codage, arrête le chrono :
+  `date +%s > .iterations/$ARGUMENTS.fin`
 
 ## 3. Vérifier la Definition of Done
 
