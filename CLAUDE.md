@@ -191,7 +191,6 @@ Le harnais bloque le point 6 tant qu'un `.env` ou un secret est suivi par git, q
 - Commiter le dossier `passation/` : il contient les documents de l'association et peut contenir des données personnelles. Il est dans `.gitignore`, ne l'en retire pas.
 - Écrire la clé de contexte dans un fichier : elle se lit dans la variable d'environnement `CLE`.
 - Inventer une fonctionnalité absente de la passation. Si un manque bloque, pose la question (❓).
-- Utiliser le sous-agent `us-coder` pendant le hackathon : il n'est pas interactif, n'applique pas la limite de 1 à 3 tests et ne pose pas la question des 8 minutes.
 
 ---
 
