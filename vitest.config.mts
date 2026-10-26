@@ -1,16 +1,10 @@
 import { configDefaults, defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
 
+// Tests du service api/. Ceux du front tournent dans frontend/ (npm test les enchaîne).
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    tsconfigPaths: true,
-  },
   test: {
-    environment: "jsdom",
-    setupFiles: ["./vitest.setup.ts"],
-    globals: true,
-    // e2e/ est la démo Playwright, pas une suite Vitest
-    exclude: [...configDefaults.exclude, "e2e/**"],
+    environment: "node",
+    include: ["api/**/*.test.ts"],
+    exclude: [...configDefaults.exclude, "e2e/**", "frontend/**"],
   },
 });

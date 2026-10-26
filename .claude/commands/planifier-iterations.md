@@ -26,7 +26,7 @@ Cherche dans la passation un plan d'itérations fait par l'équipe dans PM Lab :
 
 Pars de `passation/cadrage/3-solution.md`, de `passation/prototype/index.html` et de `passation/cadrage/5-hypotheses.md`. Respecte l'ordre de priorité de `2-idees-priorisees.md` et exclus ce que `matiere/arbitrages.md` écarte.
 
-- **Itération 1** : le squelette publié. L'application démarre selon le contrat de déployabilité (`Dockerfile`, `.env.example`, `/health` et `/sante`, `DEPLOIEMENT.md`), est en ligne, et montre l'écran principal du cas passant, même avec des données en dur.
+- **Itération 1** : le squelette publié. L'application démarre selon le contrat de déployabilité et le gabarit du serveur (services `api/` et `frontend/` déjà posés ; reste `.env.example` et `DEPLOIEMENT.md`), est en ligne, et montre l'écran principal du cas passant, même avec des données en dur.
 - **Itérations suivantes** : le cas passant devient réel, un objectif démontrable par itération, dans l'ordre de priorité de l'équipe. Un petit objectif fait une itération courte : 3 minutes de codage, c'est très bien.
 - **Dernière itération** : quand le temps restant ne permet plus qu'une itération, elle sert à stabiliser ce qui sera montré au pitch.
 
