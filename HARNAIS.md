@@ -103,7 +103,7 @@ Les étapes du hackathon sont des commandes, pas des skills : c'est toi qui pilo
 
 En Agile, la DoD est un accord entre humains : on s'engage, et l'écart se voit en rétro. Un agent n'a pas cette discipline collective, et il a un biais connu : **il dit « fini » trop tôt.** Avec un agent, la DoD devient la condition de sortie de la boucle, et la vraie question est : **quels points le harnais vérifie-t-il lui-même ?**
 
-La DoD d'une itération (détail dans la section 8 du `CLAUDE.md`) :
+La DoD d'une itération (détail dans la section 3 du `CLAUDE.md`) :
 
 | Point | Forme |
 |---|---|

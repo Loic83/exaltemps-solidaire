@@ -10,4 +10,4 @@ Récupère la passation de l'équipe `$ARGUMENTS`.
 4. Vérifie que `passation/` figure dans `.gitignore`, et que `git config core.hooksPath` vaut `.githooks` (borne au commit). Sinon, lance `git config core.hooksPath .githooks`.
 5. Lis `passation/PASSATION.md`, puis les fichiers marqués comme essentiels dans la carte.
 6. Rends un résumé de 10 lignes au plus : l'association, la problématique retenue, les écrans de la solution, la présence ou non du prototype, les hypothèses, ce qui a été écarté, et les étapes « Pas encore produit ».
-7. Vérifie la Definition of Ready du hackathon (section 8 de `CLAUDE.md`) et dis, point par point, si elle est remplie. Si elle l'est, propose `/planifier-iterations`. Sinon, dis ce qui manque et qui peut le lever (les cadreurs pour la problématique ou la solution, l'équipe plateforme pour les variables). Ne code rien.
+7. Vérifie la Definition of Ready du hackathon (section 3 de `CLAUDE.md`) et dis, point par point, si elle est remplie. Si elle l'est, propose `/planifier-iterations`. Sinon, dis ce qui manque et qui peut le lever (les cadreurs pour la problématique ou la solution, l'équipe plateforme pour les variables). Ne code rien.

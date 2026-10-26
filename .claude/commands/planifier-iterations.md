@@ -5,7 +5,7 @@ Découpe le programme de l'équipe en itérations courtes. Tu ne codes rien dans
 
 ## 1. Vérifier la Definition of Ready du hackathon
 
-Relis la section 8 de `CLAUDE.md`. Vérifie chaque point de la DoR du hackathon : passation récupérée, problématique retenue, au moins un écran décrit ou un prototype, variables `CLE` et `URL_PUBLIQUE` définies. Si un point manque, dis lequel (❗️) et ce qu'il faut pour le lever, puis arrête-toi. Si `passation/` n'existe pas, propose `/recuperer-passation <CODE>`.
+Relis la section 3 de `CLAUDE.md`. Vérifie chaque point de la DoR du hackathon : passation récupérée, problématique retenue, au moins un écran décrit ou un prototype, variables `CLE` et `URL_PUBLIQUE` définies. Si un point manque, dis lequel (❗️) et ce qu'il faut pour le lever, puis arrête-toi. Si `passation/` n'existe pas, propose `/recuperer-passation <CODE>`.
 
 ## 2. Demander le temps
 
@@ -34,7 +34,7 @@ Détaille seulement **les deux ou trois prochaines itérations**. Le reste est u
 
 Si le périmètre ne tient pas dans le temps restant, dis-le (✂️) et liste ce qui sort, au lieu de grossir les itérations.
 
-Si le skill `anthropic-skills:sfd-micro-features` est disponible, tu peux t'en servir pour formuler les critères d'acceptation. Les règles de taille de la section 8 priment sur sa sortie.
+Si le skill `anthropic-skills:sfd-micro-features` est disponible, tu peux t'en servir pour formuler les critères d'acceptation. Les règles de taille de la section 3 de `CLAUDE.md` priment sur sa sortie.
 
 ## 5. Écrire `ITERATIONS.md`
 

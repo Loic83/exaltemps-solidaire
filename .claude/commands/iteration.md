@@ -2,7 +2,7 @@
 description: Vérifie la DoR, code dans le budget, vérifie la DoD, publie et signale une itération
 argument-hint: <numéro de l'itération>
 ---
-Réalise l'itération `$ARGUMENTS` de `ITERATIONS.md`. Les définitions de référence sont dans la section 8 de `CLAUDE.md`.
+Réalise l'itération `$ARGUMENTS` de `ITERATIONS.md`. Les définitions de référence sont dans la section 3 de `CLAUDE.md`.
 
 ## 1. Demander le temps restant et vérifier la Definition of Ready (2 minutes au plus)
 
@@ -28,7 +28,7 @@ mkdir -p .iterations && date +%s > .iterations/$ARGUMENTS.debut
 
 ## 3. Vérifier la Definition of Done
 
-Reprends les 6 points de la DoD de la section 8, dans l'ordre :
+Reprends les 6 points de la DoD de la section 3 de `CLAUDE.md`, dans l'ordre :
 
 1. Critères d'acceptation : satisfaits, ou reportés dans `ITERATIONS.md`.
 2. 1 à 3 tests unitaires Vitest sur la logique métier ajoutée ; `npm test` passe.
