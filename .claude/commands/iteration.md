@@ -33,8 +33,8 @@ Reprends les 6 points de la DoD de la section 3 de `CLAUDE.md`, dans l'ordre :
 1. Critères d'acceptation : satisfaits, ou reportés dans `ITERATIONS.md`.
 2. 1 à 3 tests unitaires Vitest sur la logique métier ajoutée ; `npm test` passe.
 3. Contrat [docs/contrat-deployabilite.md](../../docs/contrat-deployabilite.md) respecté : lance `./scripts/verifier-deployabilite.sh`. Une ligne `BORNE` se corrige avant tout (un `.env` ou un secret suivi par git, la passation commitée) ; une ligne `ALARME` se traite si le temps le permet, sinon se reporte. Si Docker est disponible sur la VM, ajoute `--construire` : c'est préconisé, pas exigé.
-4. Application en ligne sur `$URL_PUBLIQUE` : `./scripts/verifier-en-ligne.sh` confirme que `/health` et `/sante` répondent 200. Si `URL_PUBLIQUE` n'est pas définie, ou si tu ne sais pas comment la VM expose l'application, arrête-toi et dis-le (❗️) : n'invente pas de mécanisme de publication.
-5. Commit `Itération $ARGUMENTS : <objectif>`, poussé si le dépôt distant est configuré. Jamais `git add -f`, jamais le dossier `passation/`.
+4. Déploiement selon [docs/guidelines-deploiement.md](../../docs/guidelines-deploiement.md) : lis le `/CLAUDE.md` à la racine du serveur (pas celui de ce projet) et suis ses guidelines. S'il est absent ou ne dit pas comment déployer, arrête-toi et dis-le (❗️) : n'invente pas de mécanisme de déploiement.
+5. Application en ligne sur `$URL_PUBLIQUE` : `./scripts/verifier-en-ligne.sh` confirme que `/health` et `/sante` répondent 200. Si `URL_PUBLIQUE` n'est pas définie, arrête-toi et dis-le (❗️).
 6. Signal à PM Lab avec l'outil du harnais : `./scripts/signaler-version.sh $ARGUMENTS`. N'appelle pas `curl` toi-même.
    Le harnais bloque cet appel si le contrat signale une borne, si `npm test` échoue ou si l'application ne répond pas. Si elle est refusée, lis le message, corrige, recommence. Ne cherche pas à contourner le blocage.
 
