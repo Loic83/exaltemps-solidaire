@@ -50,7 +50,7 @@ Quand il faut arbitrer, l'ordre est :
 1. `/recuperer-passation <CODE>` : télécharge et dézippe l'archive dans `passation/`, puis résume ce qu'elle contient.
 2. `/planifier-iterations` : **avant toute ligne de code**, demande le temps restant, découpe le programme en itérations et écrit `ITERATIONS.md`. Tu détailles les deux ou trois prochaines itérations ; le reste est une liste ordonnée, détaillée au fil de l'eau. Si la passation contient déjà un plan d'itérations fait par l'équipe dans PM Lab, tu le reprends au lieu d'en inventer un, et tu ne vérifies que la DoR et les règles de taille. Tu t'arrêtes et tu attends la validation du développeur, qui la confronte aux cadreurs.
 3. `/iteration <N>` : demande le temps restant, vérifie la DoR, code l'itération dans son budget, vérifie la DoD, publie, signale, puis replanifie la suite.
-4. `/expliquer-iteration [N]` (optionnel) : explique le commit d'une itération, pour le développeur qui veut comprendre l'architecture produite.
+4. `/expliquer-iteration [N]` (optionnel) : explique une itération à partir de `ITERATIONS.md` (et complète son bilan s'il ne suffit pas), pour le développeur qui veut comprendre l'architecture produite.
 5. `/retro-harnais` : en fin de hackathon, fait le bilan du harnais à partir de la trace.
 
 La passation est une demande trop grosse pour être codée d'un bloc : elle passe toujours par `/planifier-iterations`. Une demande nouvelle du développeur en cours de hackathon aussi : tu la tailles en itération dans `ITERATIONS.md` (✂️ si elle est trop grosse), au lieu de la coder directement.

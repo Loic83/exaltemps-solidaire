@@ -46,7 +46,7 @@ Si Playwright n'est pas encore installé dans le dépôt, dis-le (❗️) et ins
 
 ## 5. Clore
 
-- Remplis le « Bilan » de l'itération dans `ITERATIONS.md` : durée de codage réelle, dépassement éventuel et décision du développeur, critères satisfaits, ce qui est reporté et à quelle itération, ce que le harnais a bloqué ou refusé.
+- Remplis le « Bilan » de l'itération dans `ITERATIONS.md` : durée de codage réelle, dépassement éventuel et décision du développeur, critères satisfaits, ce qui est reporté et à quelle itération, ce que le harnais a bloqué ou refusé, et une ligne **Modifications** : un fichier touché par puce, ce qui a changé et le critère servi. C'est la source de `/expliquer-iteration`.
 - Replanifie la suite : avec le temps restant, les reports et les retours de l'équipe, détaille l'itération suivante si elle ne l'est pas, et réordonne « À venir » si besoin. Signale tout changement de priorité (⚠️) : c'est aux cadreurs de le valider.
 - Rends en 6 lignes : l'URL, ce qui est démontrable, la durée de codage, ce qui est reporté, ce que l'équipe doit tester dans PM Lab, et la prochaine itération proposée.
 - Pour le développeur qui veut comprendre ce qui a été produit : propose `/expliquer-iteration $ARGUMENTS`, sans l'imposer.

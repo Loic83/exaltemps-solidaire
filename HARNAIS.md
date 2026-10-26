@@ -148,7 +148,7 @@ VS Code te donne en plus de quoi **voir l'architecture du code produit**. Tout e
 | Moment | Ce que tu peux faire | Ce que tu y gagnes |
 |---|---|---|
 | Pendant l'itération | relire chaque modification dans la vue des différences avant de l'accepter | tu vois le code naître |
-| Fin d'itération | `/expliquer-iteration` : l'agent explique le commit (quels fichiers, pourquoi, quel critère chacun sert) | tu comprends l'architecture sans tout lire |
+| Fin d'itération | `/expliquer-iteration` : l'agent explique l'itération à partir de `ITERATIONS.md` (quels fichiers, pourquoi, quel critère chacun sert), et complète le bilan s'il ne suffit pas | tu comprends l'architecture sans tout lire |
 | Fin d'itération | demander au sous-agent `reviewer` de relire le commit | un second regard, indépendant de l'agent qui a codé |
 | Au fil de l'eau | onglet Source Control : comparer l'itération N à N-1 | tu vois l'architecture grandir |
 | À tout moment | ouvrir `.iterations/trace.jsonl` | tu vois ce que fait l'agent, action par action |

@@ -57,7 +57,7 @@ Pour chaque itération détaillée :
 - **Fichiers prévus** : ... (5 environ au plus, hors tests)
 - **Tests unitaires prévus** : 1 à 3, sur ...
 - **Étapes ajoutées à la démo** : ...
-- **Bilan** : _à remplir en fin d'itération (durée de codage réelle, dépassement éventuel, fait, reporté)_
+- **Bilan** : _à remplir en fin d'itération (durée de codage réelle, dépassement éventuel, fait, reporté, modifications fichier par fichier)_
 ```
 
 Puis la section « À venir » : la liste ordonnée des objectifs suivants, une ligne chacun.
