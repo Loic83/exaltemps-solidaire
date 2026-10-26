@@ -28,7 +28,7 @@ Do not introduce a second tool for the same job (e.g. no Jest alongside Vitest, 
 
 ## 3) Directory and naming conventions
 
-- Co-locate tests with the code they test: `src/app/foo/page.tsx` → `src/app/foo/page.test.tsx`.
+- Co-locate tests with the code they test: `frontend/src/app/foo/page.tsx` → `frontend/src/app/foo/page.test.tsx`, `api/src/routes.ts` → `api/src/routes.test.ts`.
 - Use `*.test.ts` / `*.test.tsx` for unit and component tests.
 - Use `e2e/*.spec.ts` at the repo root for Playwright end-to-end tests.
 - Test file names mirror the file under test; no generic `test.ts` / `index.test.ts`.

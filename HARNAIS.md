@@ -111,8 +111,8 @@ La DoD d'une itération (détail dans la section 3 du `CLAUDE.md`) :
 | 1. Critères d'acceptation satisfaits, ou reportés par écrit | panneau |
 | 2. 1 à 3 tests unitaires, `npm test` passe | **borne** |
 | 3. Contrat de déployabilité respecté (`scripts/verifier-deployabilite.sh`) | **borne** pour les `.env` et les secrets ; **alarme** pour le reste (Dockerfile, `.env.example`, routes de santé, `DEPLOIEMENT.md`) ; construction Docker préconisée si Docker est disponible |
-| 4. Application en ligne, `/health` et `/sante` répondent 200 | **borne** |
-| 5. Code commité | panneau |
+| 4. Application déployée selon `docs/guidelines-deploiement.md` (le `/CLAUDE.md` à la racine du serveur) | panneau |
+| 5. Application en ligne, `/health` et `/sante` répondent 200 | **borne** |
 | 6. Version signalée à PM Lab | c'est la porte de sortie |
 
 La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret est suivi par git, que les tests échouent ou que l'application ne répond pas. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
@@ -148,7 +148,7 @@ VS Code te donne en plus de quoi **voir l'architecture du code produit**. Tout e
 | Moment | Ce que tu peux faire | Ce que tu y gagnes |
 |---|---|---|
 | Pendant l'itération | relire chaque modification dans la vue des différences avant de l'accepter | tu vois le code naître |
-| Fin d'itération | `/expliquer-iteration` : l'agent explique le commit (quels fichiers, pourquoi, quel critère chacun sert) | tu comprends l'architecture sans tout lire |
+| Fin d'itération | `/expliquer-iteration` : l'agent explique l'itération à partir de `ITERATIONS.md` (quels fichiers, pourquoi, quel critère chacun sert), et complète le bilan s'il ne suffit pas | tu comprends l'architecture sans tout lire |
 | Fin d'itération | demander au sous-agent `reviewer` de relire le commit | un second regard, indépendant de l'agent qui a codé |
 | Au fil de l'eau | onglet Source Control : comparer l'itération N à N-1 | tu vois l'architecture grandir |
 | À tout moment | ouvrir `.iterations/trace.jsonl` | tu vois ce que fait l'agent, action par action |

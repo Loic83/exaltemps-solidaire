@@ -71,7 +71,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "f=$(jq -r '.tool_response.filePath // .tool_input.file_path'); case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs) cd \"$CLAUDE_PROJECT_DIR\" && npx --no-install eslint \"$f\" 1>&2 || exit 2 ;; esac",
+            "command": "f=$(jq -r '.tool_response.filePath // .tool_input.file_path'); case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs) case \"$f\" in */frontend/*) d=\"$CLAUDE_PROJECT_DIR/frontend\" ;; *) d=\"$CLAUDE_PROJECT_DIR\" ;; esac; cd \"$d\" && npx --no-install eslint \"$f\" 1>&2 || exit 2 ;; esac",
             "statusMessage": "Linting changed file..."
           }
         ]

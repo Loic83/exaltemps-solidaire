@@ -43,14 +43,14 @@ Quand il faut arbitrer, l'ordre est :
 - **Le temps restant change** : l'heure de fin du build peut bouger. Tu ne la supposes jamais. Tu demandes au développeur « combien de minutes reste-t-il jusqu'à la fin du build ? » au moment de planifier, puis au début de chaque itération.
 - **Le goulot, c'est l'équipe, pas le code** : chaque version déclenche un tour de test des cadreurs. Une itération dure donc au moins : codage + publication (environ 5 minutes) + tour de test de l'équipe. Tu demandes la durée du tour de test au moment de planifier (10 minutes si le développeur ne sait pas).
 - Chaque itération se termine par une version publiée sur l'URL publique de l'équipe et signalée à PM Lab. Une itération qui ne publie rien est une itération perdue, même si le code avance.
-- La doc de Next dans `node_modules/next/dist/docs/` se consulte quand une API ne se comporte pas comme prévu, dans le budget de l'itération.
+- La doc de Next dans `frontend/node_modules/next/dist/docs/` se consulte quand une API ne se comporte pas comme prévu, dans le budget de l'itération.
 
 ### Les commandes, dans l'ordre
 
 1. `/recuperer-passation <CODE>` : télécharge et dézippe l'archive dans `passation/`, puis résume ce qu'elle contient.
 2. `/planifier-iterations` : **avant toute ligne de code**, demande le temps restant, découpe le programme en itérations et écrit `ITERATIONS.md`. Tu détailles les deux ou trois prochaines itérations ; le reste est une liste ordonnée, détaillée au fil de l'eau. Si la passation contient déjà un plan d'itérations fait par l'équipe dans PM Lab, tu le reprends au lieu d'en inventer un, et tu ne vérifies que la DoR et les règles de taille. Tu t'arrêtes et tu attends la validation du développeur, qui la confronte aux cadreurs.
 3. `/iteration <N>` : demande le temps restant, vérifie la DoR, code l'itération dans son budget, vérifie la DoD, publie, signale, puis replanifie la suite.
-4. `/expliquer-iteration [N]` (optionnel) : explique le commit d'une itération, pour le développeur qui veut comprendre l'architecture produite.
+4. `/expliquer-iteration [N]` (optionnel) : explique une itération à partir de `ITERATIONS.md` (et complète son bilan s'il ne suffit pas), pour le développeur qui veut comprendre l'architecture produite.
 5. `/retro-harnais` : en fin de hackathon, fait le bilan du harnais à partir de la trace.
 
 La passation est une demande trop grosse pour être codée d'un bloc : elle passe toujours par `/planifier-iterations`. Une demande nouvelle du développeur en cours de hackathon aussi : tu la tailles en itération dans `ITERATIONS.md` (✂️ si elle est trop grosse), au lieu de la coder directement.
@@ -102,9 +102,9 @@ Une itération est finie quand **tous** ces points sont vrais, et seulement alor
 
 1. les critères d'acceptation traités sont satisfaits, et ceux qui ne le sont pas sont reportés dans `ITERATIONS.md` ;
 2. 1 à 3 tests unitaires Vitest couvrent la logique métier de l'itération (règle de calcul, validation, transformation ; pas de test sur du balisage pur), et `npm test` passe ;
-3. le contrat [docs/contrat-deployabilite.md](./docs/contrat-deployabilite.md) est respecté (en attente de validation par la Forge) : `./scripts/verifier-deployabilite.sh` ne signale aucune borne, et tu traites ses alarmes. L'itération 1 pose donc le `Dockerfile`, le `.env.example`, les routes `/health` et `/sante` et le `DEPLOIEMENT.md`, même si l'écran est encore vide. Si Docker est disponible sur la VM, construire et démarrer avec Docker est préconisé (`./scripts/verifier-deployabilite.sh --construire`) ; sinon, le `Dockerfile` est quand même écrit, pour la Forge ;
-4. l'application est en ligne : `./scripts/verifier-en-ligne.sh` confirme que `/health` et `/sante` répondent 200 ;
-5. le code est commité (`Itération N : <objectif>`), et poussé si le dépôt distant est configuré ;
+3. le contrat [docs/contrat-deployabilite.md](./docs/contrat-deployabilite.md) est respecté (en attente de validation par la Forge) : `./scripts/verifier-deployabilite.sh` ne signale aucune borne, et tu traites ses alarmes. Le squelette suit déjà le gabarit du serveur : deux services, `api/` (port 8081) et `frontend/` (export statique servi par nginx, port 80), chacun avec son `Dockerfile` et ses routes `/health` et `/sante`. L'itération 1 pose donc le `.env.example` et le `DEPLOIEMENT.md`, même si l'écran est encore vide. Le front appelle l'API en chemin relatif (`/api/v1/...`), jamais par une URL absolue ;
+4. l'application est déployée en suivant [docs/guidelines-deploiement.md](./docs/guidelines-deploiement.md), c'est-à-dire les guidelines du `/CLAUDE.md` à la racine du serveur, et non celles de ce projet ;
+5. l'application est en ligne : `./scripts/verifier-en-ligne.sh` confirme que `/health` et `/sante` répondent 200 ;
 6. la version est signalée à PM Lab (`version-prete`).
 
 Le harnais bloque le point 6 tant qu'un `.env` ou un secret est suivi par git, que `npm test` échoue ou que l'application n'est pas en ligne : c'est une borne, pas une consigne.
