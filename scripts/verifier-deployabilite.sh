@@ -29,14 +29,21 @@ if find api frontend \( "${exclus[@]}" \) -prune -o \( -iname '*passation*' -o -
 fi
 
 # Alarmes : le contrat, élément par élément
-[ -f Dockerfile ] || [ -f docker-compose.yml ] || [ -f compose.yaml ] || alarme "ni Dockerfile ni docker-compose.yml à la racine (règle 1)"
+# Structure imposée par le gabarit du serveur : deux services, api/ et frontend/ (voir docs/guidelines-deploiement.md).
+# Règle 1 : un compose à la racine (posé par la recette du serveur), ou les deux Dockerfile du gabarit.
+if [ ! -f podman-compose.yml ] && [ ! -f docker-compose.yml ] && [ ! -f compose.yaml ]; then
+  for s in api frontend; do
+    [ -f "$s/Dockerfile" ] || alarme "pas de $s/Dockerfile (règle 1, gabarit du serveur)"
+  done
+fi
 [ -f .env.example ] || alarme "pas de .env.example (règle 2)"
 [ -f DEPLOIEMENT.md ] || alarme "pas de DEPLOIEMENT.md (règle 8)"
-# En App Router, une route se définit par son chemin (src/app/health/route.ts), pas par une chaîne dans le code.
+# Règle 5 : /health et /sante dans chacun des deux services. Le front est statique (fichiers dans public/) ;
+# côté API, la route est une chaîne dans le code, hors tests.
 for r in health sante; do
-  compgen -G "src/app/$r/route.*" >/dev/null || compgen -G "app/$r/route.*" >/dev/null || [ -f "public/$r" ] \
-    || grep -rqE "[\"'\`]/${r}[\"'\`]" --include='*.ts' --include='*.js' --include='*.mjs' src app server 2>/dev/null \
-    || alarme "pas de route /$r : src/app/$r/route.ts, ou public/$r pour un site statique (règle 5)"
+  [ -f "frontend/public/$r" ] || alarme "pas de frontend/public/$r : le front doit répondre sur /$r (règle 5)"
+  grep -rqE "[\"'\`]/${r}[\"'\`]" --include='*.ts' --exclude='*.test.ts' api/src 2>/dev/null \
+    || alarme "pas de route /$r dans api/src (règle 5)"
 done
 
 # Préconisation : construire avec Docker, seulement s'il est disponible
