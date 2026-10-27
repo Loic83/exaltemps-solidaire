@@ -15,6 +15,10 @@ Le déploiement suit les guidelines du fichier **`/CLAUDE.md` à la racine du se
 2. Déployer en suivant ces guidelines, sans ajouter d'étape qu'elles ne décrivent pas.
 3. Confirmer ensuite que l'application est en ligne avec `./scripts/verifier-en-ligne.sh`.
 
+## Dérogation : pas de commit ni de push
+
+Le déploiement passe uniquement par la core-platform. On applique la recette du `/CLAUDE.md` du serveur **jusqu'à son étape 5 (« Vérifier ») incluse**, et on s'arrête là : on **ne commite pas et on ne pousse pas**, contrairement à la ligne « Puis commite et pousse » de la recette. C'est le seul point sur lequel ce dépôt l'emporte sur le fichier du serveur.
+
 ## Si le fichier est absent ou incomplet
 
 Si `/CLAUDE.md` n'existe pas à la racine du serveur, ou s'il ne dit pas comment déployer, l'agent s'arrête et le signale (❗️). Il n'invente pas de mécanisme de déploiement.

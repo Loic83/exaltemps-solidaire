@@ -20,7 +20,7 @@ Si vous êtes sur cette page, c'est que vous êtes dans la 2ème partie du hacka
 - **Un harnais encadre l'agent** :
   - des règles écrites dans `CLAUDE.md` ;
   - des commandes qui enchaînent les étapes ;
-  - des contrôles qui bloquent un commit ou un signal non conformes ;
+  - des contrôles qui bloquent un signal non conforme ;
   - une alarme à 8 minutes de codage, où l'agent vous demande si vous finalisez ou publiez ce qui marche.
 
 **Ce que vous obtenez à la fin** : une application en ligne pour l'association, et un dépôt déployable par la Forge après le hackathon.
@@ -39,7 +39,7 @@ Ce que vous apportez :
 
 ### Les étapes
 
-La VM est préparée avant le hackathon : dépendances installées, navigateur de la démo, contrôle au commit et variables d'environnement.
+La VM est préparée avant le hackathon : dépendances installées, navigateur de la démo et variables d'environnement.
 
 1. **Lancez Claude Code** dans ce dossier (`claude`), puis tapez les commandes dans l'ordre :
 
