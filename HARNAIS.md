@@ -72,7 +72,6 @@ Les étapes du hackathon sont des commandes, pas des skills : c'est toi qui pilo
 | Outil | Ce qu'il permet | Remarque |
 |---|---|---|
 | Les outils de Claude Code | lire, chercher, écrire, lancer des commandes | la base |
-| GitHub (git) | l'historique, un commit par itération | c'est aussi une trace (question 6) |
 | Vitest | vérifier le code | sert la question 5 |
 | Docker | construire et démarrer l'application en une commande | le `Dockerfile` est exigé dans le dépôt par `docs/contrat-deployabilite.md`, pour la Forge ; construire avec Docker sur la VM est préconisé, si Docker est disponible |
 | L'API de PM Lab Solidaire et le contrat, par quatre scripts (`scripts/`) | lire la passation, vérifier le contrat de déployabilité, vérifier que l'application est en ligne, signaler une version prête | **le seul outil qui écrit chez un tiers**. L'agent n'appelle pas `curl` lui-même : il passe par des scripts qui vérifient leurs entrées, et ce sont ces scripts qui sont autorisés |
@@ -89,8 +88,8 @@ Les étapes du hackathon sont des commandes, pas des skills : c'est toi qui pilo
 | Lire les fichiers `.env` (sauf `.env.example`) | `.claude/settings.json`, `deny` | borne, **trouée** : l'outil de lecture est bloqué, un `cat .env` dans le terminal passe. Une borne ne protège que ce qu'on a pensé à bloquer |
 | `git reset --hard`, `sudo`… | `.claude/settings.json`, `ask` | borne souple : l'agent doit te demander |
 | Toute commande hors de la liste `allow` (une dépendance nouvelle, un `git push`…) | `.claude/settings.json`, liste `allow` | alarme : Claude Code te demande la permission. La liste autorise les commandes du harnais (tests, Docker, PM Lab, git add et commit) pour que tu ne valides pas dix commandes par itération |
-| Commiter `passation/` (documents de l'association) | `.gitignore`, refus de `git add -f`, et `.githooks/pre-commit`, qui lance `scripts/verifier-deployabilite.sh` à chaque commit (`git commit --no-verify` est refusé) | borne |
-| Laisser un `.env` ou un secret suivi par git | `scripts/verifier-deployabilite.sh`, appelé par le hook avant le signal | borne : la version ne peut pas sortir |
+| Copier un document de `passation/` dans un service déployé | `scripts/verifier-deployabilite.sh`, appelé par le hook avant le signal ; `.gitignore` et refus de `git add -f` si quelqu'un commite quand même | borne |
+| Laisser un `.env` ou un secret dans `api/` ou `frontend/` | `scripts/verifier-deployabilite.sh`, appelé par le hook avant le signal | borne : la version ne peut pas sortir |
 | Écrire la clé `CLE` dans un fichier | `CLAUDE.md` | panneau seulement |
 
 **Une limite à connaître :** une liste d'autorisations ne protège pas contre le code que l'agent écrit puis exécute. Autoriser `npm test`, c'est autoriser l'exécution des tests qu'il a lui-même écrits. C'est pour ça que les autorisations sont précises (des scripts exacts, `docker compose run` et `exec` interdits), et que l'on travaille dans un **environnement isolé** : ta VM. Ce n'est pas seulement une borne de dernier recours, c'est une étape de la procédure standard : on construit et on teste dans un environnement isolé, sans rien d'autre à abîmer, avant que la Forge déploie ailleurs.
@@ -115,7 +114,7 @@ La DoD d'une itération (détail dans la section 3 du `CLAUDE.md`) :
 | 5. Application en ligne, `/health` et `/sante` répondent 200 | **borne** |
 | 6. Version signalée à PM Lab | c'est la porte de sortie |
 
-La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret est suivi par git, que les tests échouent ou que l'application ne répond pas. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
+La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret se trouve dans le code déployé, que les tests échouent ou que l'application ne répond pas. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
 
 **Le budget** de 10 minutes de codage est volontairement un **panneau doublé d'une alarme** : à 8 minutes, l'alarme sonne (hook `.claude/hooks/alarme-budget.sh`), et l'agent te demande si tu préfères finaliser ou t'arrêter et publier. C'est toi qui décides. Les 10 minutes sont un plafond, pas une cible : une itération de 3 minutes, c'est très bien.
 
@@ -129,7 +128,6 @@ La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à 
 |---|---|---|
 | Une ligne par action de l'agent | `.iterations/trace.jsonl` (hook `.claude/hooks/tracer.sh`, non commité) | `/retro-harnais` |
 | Le bilan de chaque itération : durée, dépassement, reports, refus | `ITERATIONS.md` | l'équipe |
-| L'historique du code | les commits git | tout le monde, et la Forge qui reprendra le dépôt |
 | Le bilan du harnais | `RETRO-HARNAIS.md`, produit par `/retro-harnais` | toi |
 
 Tout tracer ne sert à rien sans lecteur. La trace sert à répondre à des questions (qu'a-t-il fait, qu'est-ce qu'on lui a refusé, combien de temps) et surtout à **nourrir le guide** : un refus qui revient sans cesse, c'est une règle qui manque. Le harnais n'est pas une photo, il grandit avec ce que la trace révèle.
@@ -149,7 +147,7 @@ VS Code te donne en plus de quoi **voir l'architecture du code produit**. Tout e
 |---|---|---|
 | Pendant l'itération | relire chaque modification dans la vue des différences avant de l'accepter | tu vois le code naître |
 | Fin d'itération | `/expliquer-iteration` : l'agent explique l'itération à partir de `ITERATIONS.md` (quels fichiers, pourquoi, quel critère chacun sert), et complète le bilan s'il ne suffit pas | tu comprends l'architecture sans tout lire |
-| Fin d'itération | demander au sous-agent `reviewer` de relire le commit | un second regard, indépendant de l'agent qui a codé |
+| Fin d'itération | demander au sous-agent `reviewer` de relire les fichiers de l'itération | un second regard, indépendant de l'agent qui a codé |
 | Au fil de l'eau | onglet Source Control : comparer l'itération N à N-1 | tu vois l'architecture grandir |
 | À tout moment | ouvrir `.iterations/trace.jsonl` | tu vois ce que fait l'agent, action par action |
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Outil : vérifie le contrat de déployabilité (docs/contrat-deployabilite.md).
 # Deux niveaux, pour illustrer panneau, alarme, borne :
-#   BORNE  : un .env ou un secret suivi par git, ou la passation commitée. Code de sortie 1.
+#   BORNE  : un .env ou un secret dans le code déployé, ou la passation copiée dans un service. Code de sortie 1.
+#            Les contrôles portent sur les fichiers présents sur le disque : le déploiement ne passe pas par git.
 #            Le hook verifier-avant-signal.sh refuse alors le signal à PM Lab.
 #   ALARME : un élément du contrat manque. Signalé, sans bloquer.
 # Usage : scripts/verifier-deployabilite.sh [--construire]
@@ -11,14 +12,21 @@ bornes=0
 borne()  { echo "BORNE  : $1" >&2; bornes=$((bornes + 1)); }
 alarme() { echo "ALARME : $1"; }
 
-# Bornes : rien de secret ni de personnel dans le dépôt
-for f in $(git ls-files | grep -E '(^|/)\.env(\..+)?$' | grep -v -E '(^|/)\.env\.example$'); do
-  borne "$f est suivi par git : retire-le (git rm --cached $f) et considère ses secrets comme compromis"
+# Bornes : rien de secret ni de personnel dans ce qui est construit et déployé.
+# api/ et frontend/ sont les contextes de construction des images : tout ce qu'ils contiennent peut finir en ligne.
+exclus=(-path '*/node_modules' -o -path '*/.next' -o -path '*/out')
+for f in $(find api frontend \( "${exclus[@]}" \) -prune -o -type f -name '.env*' ! -name '.env.example' -print 2>/dev/null); do
+  borne "$f est dans un service déployé : sors-le du dossier et considère ses secrets comme compromis"
 done
-if git grep -nIE 'sk-[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY' -- . ':!scripts/verifier-deployabilite.sh' >/dev/null 2>&1; then
-  borne "secret probable dans un fichier suivi : git grep -nIE 'sk-|AKIA|PRIVATE KEY' pour le voir"
+# Les .env locaux (hors services) et la passation sont légitimes sur la VM : ils ne sont pas analysés.
+if grep -rIlE 'sk-[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY' . \
+     --exclude-dir={node_modules,.next,out,.git,passation,.iterations} \
+     --exclude='.env*' --exclude=verifier-deployabilite.sh >/dev/null 2>&1; then
+  borne "secret probable dans le code : grep -rnIE 'sk-|AKIA|PRIVATE KEY' --exclude-dir=node_modules . pour le voir"
 fi
-git ls-files | grep -q -E '^passation/' && borne "le dossier passation/ est commité (documents de l'association)"
+if find api frontend \( "${exclus[@]}" \) -prune -o \( -iname '*passation*' -o -iname '*.pdf' \) -print 2>/dev/null | grep -q .; then
+  borne "un document de la passation (ou un PDF) est copié dans api/ ou frontend/ (documents de l'association)"
+fi
 
 # Alarmes : le contrat, élément par élément
 [ -f Dockerfile ] || [ -f docker-compose.yml ] || [ -f compose.yaml ] || alarme "ni Dockerfile ni docker-compose.yml à la racine (règle 1)"

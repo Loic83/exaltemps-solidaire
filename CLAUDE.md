@@ -107,7 +107,7 @@ Une itération est finie quand **tous** ces points sont vrais, et seulement alor
 5. l'application est en ligne : `./scripts/verifier-en-ligne.sh` confirme que `/health` et `/sante` répondent 200 ;
 6. la version est signalée à PM Lab (`version-prete`).
 
-Le harnais bloque le point 6 tant qu'un `.env` ou un secret est suivi par git, que `npm test` échoue ou que l'application n'est pas en ligne : c'est une borne, pas une consigne.
+Le harnais bloque le point 6 tant qu'un `.env` ou un secret se trouve dans le code déployé, que `npm test` échoue ou que l'application n'est pas en ligne : c'est une borne, pas une consigne.
 
 Le point 2 est le minimum de tests, et aussi le maximum dans le budget : pas de tests d'intégration ou fonctionnels en plus. Pour écrire les tests Vitest, suis les conventions de [docs/testing-guidelines.md](./docs/testing-guidelines.md) ; ses exigences de couverture ne s'appliquent pas pendant le hackathon.
 
