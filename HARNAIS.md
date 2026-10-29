@@ -74,7 +74,7 @@ Les étapes du hackathon sont des commandes, pas des skills : c'est toi qui pilo
 | Les outils de Claude Code | lire, chercher, écrire, lancer des commandes | la base |
 | Vitest | vérifier le code | sert la question 5 |
 | Docker | construire et démarrer l'application en une commande | le `Dockerfile` est exigé dans le dépôt par `docs/contrat-deployabilite.md`, pour la Forge ; construire avec Docker sur la VM est préconisé, si Docker est disponible |
-| L'API de PM Lab Solidaire et le contrat, par quatre scripts (`scripts/`) | lire la passation, vérifier le contrat de déployabilité, vérifier que l'application est en ligne, signaler une version prête | **le seul outil qui écrit chez un tiers**. L'agent n'appelle pas `curl` lui-même : il passe par des scripts qui vérifient leurs entrées, et ce sont ces scripts qui sont autorisés |
+| L'API de PM Lab Solidaire et le contrat, par trois scripts (`scripts/`) | lire la passation, vérifier le contrat de déployabilité, signaler une version prête | **le seul outil qui écrit chez un tiers**. L'agent n'appelle pas `curl` lui-même : il passe par des scripts qui vérifient leurs entrées, et ce sont ces scripts qui sont autorisés |
 | Playwright | rejouer la démonstration du cas passant (`npm run demo`) | **ce n'est pas un test**, il ne fait pas partie de la DoD |
 
 **Ce qui casse sans :** rien, l'agent ne fait rien. Mais **chaque outil ajouté élargit ce qu'il peut casser.** C'est ce qui appelle la question 4.
@@ -111,10 +111,10 @@ La DoD d'une itération (détail dans la section 3 du `CLAUDE.md`) :
 | 2. 1 à 3 tests unitaires, `npm test` passe | **borne** |
 | 3. Contrat de déployabilité respecté (`scripts/verifier-deployabilite.sh`) | **borne** pour les `.env` et les secrets ; **alarme** pour le reste (Dockerfile, `.env.example`, routes de santé, `DEPLOIEMENT.md`) ; construction Docker préconisée si Docker est disponible |
 | 4. Application déployée selon `docs/guidelines-deploiement.md` (le `/CLAUDE.md` à la racine du serveur) | panneau |
-| 5. Application en ligne, `/health` et `/sante` répondent 200 | **borne** |
+| 5. Application en ligne, `/health` et `/sante` répondent 200 | panneau : le développeur le confirme depuis son navigateur, sans que ce soit bloquant |
 | 6. Version signalée à PM Lab | c'est la porte de sortie |
 
-La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret se trouve dans le code déployé, que les tests échouent ou que l'application ne répond pas. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
+La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret se trouve dans le code déployé ou que les tests échouent. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
 
 **Le budget** de 10 minutes de codage est volontairement un **panneau doublé d'une alarme** : à 8 minutes, l'alarme sonne (hook `.claude/hooks/alarme-budget.sh`), et l'agent te demande si tu préfères finaliser ou t'arrêter et publier. C'est toi qui décides. Les 10 minutes sont un plafond, pas une cible : une itération de 3 minutes, c'est très bien.
 
