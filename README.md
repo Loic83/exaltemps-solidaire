@@ -39,9 +39,9 @@ Ce que vous apportez :
 
 ### Les étapes
 
-La VM est préparée avant le hackathon : dépendances installées, navigateur de la démo et variables d'environnement.
+La VM est préparée avant le hackathon : dépendances installées, navigateur de la démo et variables d'environnement. Tout le build se fait dans son dossier `~/app`.
 
-1. **Lancez Claude Code** dans ce dossier (`claude`), puis tapez les commandes dans l'ordre :
+1. **Vérifiez que vous êtes dans le dossier `~/app`** (`pwd`), sinon tapez `cd ~/app`. **Lancez-y Claude Code** (`claude`), puis tapez les commandes dans l'ordre :
 
    | Commande | Ce qu'elle fait |
    |---|---|
