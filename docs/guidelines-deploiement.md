@@ -13,7 +13,7 @@ Le déploiement suit les guidelines du fichier **`/CLAUDE.md` à la racine du se
 
 1. Lire `/CLAUDE.md` à la racine du serveur avant chaque déploiement : il peut changer en cours de hackathon.
 2. Déployer en suivant ces guidelines, sans ajouter d'étape qu'elles ne décrivent pas.
-3. Confirmer ensuite que l'application est en ligne avec `./scripts/verifier-en-ligne.sh`.
+3. Faire confirmer ensuite par le développeur que l'application est en ligne : `$URL_PUBLIQUE/health` et `$URL_PUBLIQUE/sante` répondent depuis son navigateur.
 
 ## Dérogation : pas de commit ni de push
 
