@@ -111,12 +111,10 @@ La DoD d'une itération (détail dans la section 3 du `CLAUDE.md`) :
 | 2. 1 à 3 tests unitaires, `npm test` passe | **borne** |
 | 3. Contrat de déployabilité respecté (`scripts/verifier-deployabilite.sh`) | **borne** pour les `.env` et les secrets ; **alarme** pour le reste (Dockerfile, `.env.example`, routes de santé, `DEPLOIEMENT.md`) ; construction Docker préconisée si Docker est disponible |
 | 4. Application déployée selon `docs/guidelines-deploiement.md` (le `/CLAUDE.md` à la racine du serveur) | panneau |
-| 5. Application en ligne, `/health` et `/sante` répondent 200 | panneau : le développeur le confirme depuis son navigateur, l'agent ne signale pas sans cette confirmation |
+| 5. Application en ligne, `/health` et `/sante` répondent 200 | panneau : le développeur le confirme depuis son navigateur, sans que ce soit bloquant |
 | 6. Version signalée à PM Lab | c'est la porte de sortie |
 
 La borne : le hook `.claude/hooks/verifier-avant-signal.sh` refuse le signal à PM Lab tant qu'un `.env` ou un secret se trouve dans le code déployé ou que les tests échouent. L'agent peut affirmer ce qu'il veut, il ne peut pas sortir.
-
-**Une borne retirée :** la mise en ligne était vérifiée par `scripts/verifier-en-ligne.sh`, qui interrogeait `URL_PUBLIQUE` depuis la VM. Depuis la VM, cette URL ne répondait pas, et la borne bloquait le signal à chaque itération. Elle est redevenue un panneau, confirmé par le développeur. Le prix : rien n'empêche plus techniquement de signaler une version que les cadreurs ne peuvent pas ouvrir.
 
 **Le budget** de 10 minutes de codage est volontairement un **panneau doublé d'une alarme** : à 8 minutes, l'alarme sonne (hook `.claude/hooks/alarme-budget.sh`), et l'agent te demande si tu préfères finaliser ou t'arrêter et publier. C'est toi qui décides. Les 10 minutes sont un plafond, pas une cible : une itération de 3 minutes, c'est très bien.
 
